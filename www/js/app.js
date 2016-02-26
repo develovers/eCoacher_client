@@ -23,11 +23,42 @@ app.run(function($ionicPlatform) {
 app.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-    .state('main', {
-      url: '/main',
-      templateUrl: 'templates/main.html',
-      controller: 'MainCtrl'
+    .state('app', {
+      url: '/app',
+      abstract: true,
+      templateUrl: 'templates/menu.html',
+      controller: 'AppCtrl'
     })
 
-  $urlRouterProvider.otherwise('/main');
+    .state('app.ecoacher', {
+      url: '/ecoacher',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/ecoacher.html',
+          controller: 'ECoacherCtrl'
+        }
+      }
+    })
+
+    .state('app.dashboard', {
+      url: '/dashboard',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/dashboard.html',
+          controller: 'DashboardCtrl'
+        }
+      }
+    })
+
+    .state('app.logros', {
+      url: '/logros',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/logros.html',
+          controller: 'LogrosCtrl'
+        }
+      }
+    });
+
+  $urlRouterProvider.otherwise('/app/ecoacher');
 });
