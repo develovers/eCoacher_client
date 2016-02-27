@@ -21,12 +21,9 @@ export class DashboardPage {
 
     this.challengeReadComplete = function(challengeJson)
     {
-        //console.dir(challengeJson);
-            this.items.push({
-                title: challengeJson.titulo,
-                note: challengeJson.objetivo + ' ' + challengeJson.unidades,
-                icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-            });
+        challengeJson.icono = this.icons[Math.floor(Math.random() * this.icons.length)];
+
+        this.items.push(challengeJson);
     }
 
 
