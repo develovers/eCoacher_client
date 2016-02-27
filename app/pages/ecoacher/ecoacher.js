@@ -17,6 +17,7 @@ export class ECoacherPage {
 
     this.commentReadComplete = function(commentJson)
     {
+    	console.log(commentJson);
         this.comment = commentJson;
     };
 
