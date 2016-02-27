@@ -39,7 +39,6 @@ export class DashboardPage {
                 err => this.logError(err),
                 () => this.challengeReadComplete(readItem)
             );
-
         };
     };
 
