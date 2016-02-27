@@ -10,7 +10,7 @@
     <ion-item-sliding *ngFor="#item of items">
       <button ion-item (click)="itemTapped($event, item)">
         <img [src]="item.iconoSrc" width="30" height="30" item-left />
-        #{{item.icono}}# {{item.titulo}}
+          {{item.titulo}}
         <div class="item-note" item-right>
           {{item.objetivo}} {{item.unidades}}
         </div>
