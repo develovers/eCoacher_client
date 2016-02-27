@@ -22,12 +22,12 @@ export class DashboardPage {
     this.challengeReadComplete = function(challengeJson)
     {
         //challengeJson.icono = this.icons[Math.floor(Math.random() * this.icons.length)];
-        this.items.push(challengeJson);
+        if (challengeJson.completado < 100)
+            this.items.push(challengeJson);
     };
 
     this.numberOfAcceptedChallengesReceived = function(countJson)
     {
-        console.log('count: ' + countJson.count);
         for(let i = 0; i < countJson.count; i++)
         {
             var readItem = null;
@@ -53,6 +53,17 @@ export class DashboardPage {
             );
     };
 
+    this.newChallengeAccepted = function(info)
+    {
+        var readItem;
+      this.http.get('http://hackforgood.sockhost.net:3000/getAcceptedChallenge?index='+this.items.length).map(res=>res.json())
+      .subscribe(
+          data => readItem = data,
+          err => this.logError(err),
+          () => this.challengeReadComplete(readItem)
+      );
+    };
+
     this.newChallengeReceived = function(challengeJson)
     {
         //TODO: Mostrar una nueva vista para aceptar o rechazar el reto?
@@ -64,7 +75,7 @@ export class DashboardPage {
             .subscribe(
                 data => readItem = data,
                 err => this.logError(err),
-                () => this.updateChallengesList(readItem)
+                () => this.newChallengeAccepted(readItem)
             );
 
     };
@@ -91,7 +102,7 @@ export class DashboardPage {
   }
 
   newChallenge(event) {
-      var rdata
+      var rdata;
       this.http.get('http://hackforgood.sockhost.net:3000/getNewChallenge').map(res=>res.json())
     .subscribe(
             data => rdata = data,
@@ -100,25 +111,27 @@ export class DashboardPage {
     );
   }
 
-  completed(item)
+  completed(event, item)
   {
-      this.http.get('http://hackforgood.sockhost.net:3000/setChallengeCompleted',
-          JSON.stringify({objectID:item._id})).map(res=>res.json())
-      .subscribe(
-          data => rdata = data,
-          err => this.logError(err),
-          () => this.updateChallengesList(rdata)
-      );
+      var rdata;
+      this.http.get('http://hackforgood.sockhost.net:3000/setChallengeCompleted?objectID='+JSON.stringify(item._id))
+          .map(res=>res.json())
+          .subscribe(
+              data => rdata = data,
+              err => this.logError(err),
+              () => this.updateChallengesList(rdata)
+          );
   }
 
-  remove(item)
+  remove(event, item)
   {
-      this.http.get('http://hackforgood.sockhost.net:3000/removeChallenge',
-          JSON.stringify({objectID:item._id})).map(res=>res.json())
+      var rdata;
+      this.http.get('http://hackforgood.sockhost.net:3000/removeChallenge?objectID='+JSON.stringify(item._id))
+          .map(res=>res.json())
           .subscribe(
-          data => rdata = data,
-          err => this.logError(err),
-          () => this.updateChallengesList(rdata)
-      );
+              data => rdata = data,
+              err => this.logError(err),
+              () => this.updateChallengesList(rdata)
+          );
   }
 }
