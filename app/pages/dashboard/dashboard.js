@@ -1,33 +1,54 @@
 import {Page, NavController, NavParams} from 'ionic-framework/ionic';
+import {Http, Headers, RequestOptions} from 'angular2/http';
 import {Inject} from 'angular2/core';
 import {DashboardDetailsPage} from '../dashboard-details/dashboard-details';
-
+import 'rxjs/Rx';
 
 @Page({
   templateUrl: 'build/pages/dashboard/dashboard.html'
 })
 export class DashboardPage {
   static get parameters() {
-    return [[NavController], [NavParams]];
+    return [[NavController], [NavParams], [Http]];
   }
 
-  constructor(nav, navParams) {
+  constructor(nav, navParams, http) {
     this.nav = nav;
+    this.http = http;
+
+    this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
+          'american-football', 'boat', 'bluetooth', 'build'];
+
+    this.challengeReadComplete = function(challengeJson)
+    {
+        //console.dir(challengeJson);
+            this.items.push({
+                title: challengeJson.titulo,
+                note: challengeJson.objetivo + ' ' + challengeJson.unidades,
+                icon: this.icons[Math.floor(Math.random() * this.icons.length)]
+            });
+    }
+
 
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');
 
-    this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-    'american-football', 'boat', 'bluetooth', 'build'];
+
 
     this.items = [];
-    for(let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
+    for(let i = 1; i < 11; i++)
+    {
+        var readItem = null;
+        http.get('http://hackforgood.sockhost.net:3000/getChallenge').map(res=>res.json())
+            .subscribe(
+                data => readItem = data,
+                err => this.logError(err),
+                () => this.challengeReadComplete(readItem)
+            );
+
+    };
+
+
   }
 
   itemTapped(event, item) {
