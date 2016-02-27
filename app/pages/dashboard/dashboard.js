@@ -52,7 +52,7 @@ export class DashboardPage {
   }
 
   itemTapped(event, item) {
-     this.nav.push(ItemDetailsPage, {
+     this.nav.push(DashboardDetailsPage, {
        item: item
      });
   }

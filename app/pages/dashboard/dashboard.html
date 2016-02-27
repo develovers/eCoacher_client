@@ -1,4 +1,4 @@
-<ion-navbar *navbar>
+<ion-navbar *navbar primary>
   <button menuToggle>
     <ion-icon name="menu"></ion-icon>
   </button>
@@ -7,13 +7,19 @@
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="#item of items" (click)="itemTapped($event, item)">
-      <ion-icon name="{{item.icon}}" item-left></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-right>
-        {{item.note}}
-      </div>
-    </button>
+    <ion-item-sliding *ngFor="#item of items">
+      <button ion-item (click)="itemTapped($event, item)">
+        <ion-icon name="{{item.icon}}" item-left></ion-icon>
+        {{item.title}}
+        <div class="item-note" item-right>
+          {{item.note}}
+        </div>
+      </button>
+      <ion-item-options>
+        <button (click)="share(item)" secondary>Realizado</button>
+        <button (click)="favorite(item)" danger>Eliminar</button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
   <div *ngIf="selectedItem" padding>
     You navigated here from <b>{{selectedItem.title}}</b>

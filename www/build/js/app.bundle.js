@@ -62253,7 +62253,7 @@
 	  _createClass(DashboardPage, [{
 	    key: 'itemTapped',
 	    value: function itemTapped(event, item) {
-	      this.nav.push(ItemDetailsPage, {
+	      this.nav.push(_dashboardDetails.DashboardDetailsPage, {
 	        item: item
 	      });
 	    }
