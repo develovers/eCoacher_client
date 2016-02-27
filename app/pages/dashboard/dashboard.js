@@ -16,14 +16,14 @@ export class DashboardPage {
     this.nav = nav;
     this.http = http;
 
-    this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-          'american-football', 'boat', 'bluetooth', 'build'];
+    this.icons = "";
 
     this.challengeReadComplete = function(challengeJson)
     {
-        //challengeJson.icono = this.icons[Math.floor(Math.random() * this.icons.length)];
-        if (challengeJson.completado < 100)
-            this.items.push(challengeJson);
+        if (challengeJson.completado < 100) {
+          challengeJson.iconoSrc = 'img/retos/' + challengeJson.icono + '.png';
+          this.items.push(challengeJson);
+        }
 
         this.completeListOfItems.push(challengeJson);
     };
@@ -90,7 +90,7 @@ export class DashboardPage {
     this.completeListOfItems = [];
     this.items = [];
 
-      var rdata;
+    var rdata;
     this.http.get('http://hackforgood.sockhost.net:3000/getNumberOfAcceptedChallenges').map(res=>res.json())
         .subscribe(
               data => rdata = data,
