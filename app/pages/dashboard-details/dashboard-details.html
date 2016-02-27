@@ -11,13 +11,14 @@
      <ion-icon name="{{selectedItem.icono}}"></ion-icon>
      <br/>
      <div>
+         <div><img src="img/graficos/{{selectedItem.completado}}.png" width="150" height="150" (click)="imageTap($event, selectedItem)"></div>
          {{selectedItem.descripcion}}
          <br/>
          <br/>
          <b>{{selectedItem.objetivo}} {{selectedItem.unidades}}</b>
          <br/>
          <br/>
-         {{selectedItem.completado}} &#37; completado
+
      </div>
   </div>
 </ion-content>
