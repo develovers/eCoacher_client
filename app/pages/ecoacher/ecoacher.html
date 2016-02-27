@@ -10,15 +10,15 @@
 <ion-content padding class="getting-started">
 
   <ion-row center>
-    <ion-col offset-10 width-80><img src="img/yellow/wink.png" /></ion-col>
+    <ion-col offset-10 width-80><img src="img/yellow/wink.png" (click)="getNewComment()" /></ion-col>
   </ion-row>
 
   <ion-card>
     <ion-card-header>
-      ¡Hola David!
+      {{comment.title}}
     </ion-card-header>
     <ion-card-content>
-      No tengo nada que decirte ahora, ¡ve a divertirte!
+      {{comment.comment}}
     </ion-card-content>
   </ion-card>
 
