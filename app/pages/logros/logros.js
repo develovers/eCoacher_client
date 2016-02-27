@@ -54,7 +54,7 @@ export class LogrosPage {
 
       this.challengeReadComplete = function(challengeJson)
       {
-        if (challengeJson.completado = 100)
+        if (challengeJson.completado == 100)
         {
           console.dir(challengeJson);
           this.slides.push({
