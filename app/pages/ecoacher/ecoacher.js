@@ -19,6 +19,7 @@ export class ECoacherPage {
     {
     	console.log(commentJson);
         this.comment = commentJson;
+        this.comment.iconSrc = 'img/yellow/' + this.comment.icon + '.png';
     };
 
     this.getNewComment = function()
