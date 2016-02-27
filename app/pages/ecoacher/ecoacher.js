@@ -32,6 +32,8 @@ export class ECoacherPage {
         );
     };
 
+    this.getNewComment();
+
   }
 
 }
