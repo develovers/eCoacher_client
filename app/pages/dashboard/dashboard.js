@@ -24,6 +24,8 @@ export class DashboardPage {
         //challengeJson.icono = this.icons[Math.floor(Math.random() * this.icons.length)];
         if (challengeJson.completado < 100)
             this.items.push(challengeJson);
+
+        this.completeListOfItems.push(challengeJson);
     };
 
     this.numberOfAcceptedChallengesReceived = function(countJson)
@@ -43,6 +45,7 @@ export class DashboardPage {
 
     this.updateChallengesList = function(readItem)
     {
+        this.completeListOfItems = [];
         this.items = [];
         var rdata;
         this.http.get('http://hackforgood.sockhost.net:3000/getNumberOfAcceptedChallenges').map(res=>res.json())
@@ -56,7 +59,7 @@ export class DashboardPage {
     this.newChallengeAccepted = function(info)
     {
         var readItem;
-      this.http.get('http://hackforgood.sockhost.net:3000/getAcceptedChallenge?index='+this.items.length).map(res=>res.json())
+      this.http.get('http://hackforgood.sockhost.net:3000/getAcceptedChallenge?index='+this.completeListOfItems.length).map(res=>res.json())
       .subscribe(
           data => readItem = data,
           err => this.logError(err),
@@ -69,7 +72,6 @@ export class DashboardPage {
         //TODO: Mostrar una nueva vista para aceptar o rechazar el reto?
         //Solucion temporal: lo aceptamos directamente y volvemos a listar los retos.
         var readItem;
-        delete challengeJson._id;
 
         this.http.get('http://hackforgood.sockhost.net:3000/acceptNewChallenge?challengeJSON='+JSON.stringify(challengeJson)).map(res=>res.json())
             .subscribe(
@@ -85,7 +87,9 @@ export class DashboardPage {
 
 
 
+    this.completeListOfItems = [];
     this.items = [];
+
       var rdata;
     this.http.get('http://hackforgood.sockhost.net:3000/getNumberOfAcceptedChallenges').map(res=>res.json())
         .subscribe(
@@ -114,7 +118,7 @@ export class DashboardPage {
   completed(event, item)
   {
       var rdata;
-      this.http.get('http://hackforgood.sockhost.net:3000/setChallengeCompleted?objectID='+JSON.stringify(item._id))
+      this.http.get('http://hackforgood.sockhost.net:3000/setChallengeCompleted?objectID='+item.uid)
           .map(res=>res.json())
           .subscribe(
               data => rdata = data,
@@ -126,7 +130,7 @@ export class DashboardPage {
   remove(event, item)
   {
       var rdata;
-      this.http.get('http://hackforgood.sockhost.net:3000/removeChallenge?objectID='+JSON.stringify(item._id))
+      this.http.get('http://hackforgood.sockhost.net:3000/removeChallenge?objectID='+item.uid)
           .map(res=>res.json())
           .subscribe(
               data => rdata = data,
